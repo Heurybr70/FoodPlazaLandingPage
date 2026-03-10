@@ -1,0 +1,93 @@
+---
+import type { ExternalAction } from "../../config/site";
+import type { NavigationItem } from "../../data/landing";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  brandName: string;
+  brandDescription: string;
+  supportEmail: string;
+  navigation: NavigationItem[];
+  commercialAction: ExternalAction;
+  appAction: ExternalAction;
+  contactUrl: string;
+  termsUrl: string;
+  privacyUrl: string;
+}
+
+const {
+  brandName,
+  brandDescription,
+  supportEmail,
+  navigation,
+  commercialAction,
+  appAction,
+  contactUrl,
+  termsUrl,
+  privacyUrl
+} = Astro.props;
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <a class="brand" href="#inicio">
+        <span class="brand__mark">
+          <Icon name="sparkles" size={18} />
+        </span>
+        <span>{brandName}</span>
+      </a>
+      <p>{brandDescription}</p>
+      <a class="footer-link footer-link--inline" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+    </div>
+
+    <div>
+      <h3>Navegación</h3>
+      <div class="footer-links">
+        {
+          navigation.map((item) => (
+            <a class="footer-link" href={item.href}>{item.label}</a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div>
+      <h3>Acciones</h3>
+      <div class="footer-links">
+        <a
+          class="footer-link"
+          href={commercialAction.url}
+          rel="noreferrer"
+          target="_blank"
+        >
+          {commercialAction.label}
+        </a>
+        <a class="footer-link" href={contactUrl} rel="noreferrer" target="_blank">
+          Contacto comercial
+        </a>
+        <a class="footer-link" href={appAction.url} rel="noreferrer" target="_blank">
+          {appAction.label}
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <h3>Legal</h3>
+      <div class="footer-links">
+        <a class="footer-link" href={termsUrl} rel="noreferrer" target="_blank">
+          Términos y condiciones
+        </a>
+        <a class="footer-link" href={privacyUrl} rel="noreferrer" target="_blank">
+          Política de privacidad
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>© {year} {brandName}. Sitio comercial para presentación y captación.</p>
+  </div>
+</footer>

@@ -1,0 +1,33 @@
+---
+import type { LandingContent } from "../../data/landing";
+import SectionIntro from "../ui/SectionIntro.astro";
+
+interface Props {
+  howItWorks: LandingContent["howItWorks"];
+}
+
+const { howItWorks } = Astro.props;
+---
+
+<section class="section" id="como-funciona">
+  <div class="container">
+    <SectionIntro
+      eyebrow={howItWorks.eyebrow}
+      title={howItWorks.title}
+      description={howItWorks.description}
+      center={true}
+    />
+
+    <div class="steps-grid">
+      {
+        howItWorks.steps.map((step, index) => (
+          <article class="step-card">
+            <div class="step-card__number">{String(index + 1).padStart(2, "0")}</div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

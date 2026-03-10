@@ -1,0 +1,36 @@
+---
+import type { ContentCard } from "../../data/landing";
+import SectionIntro from "../ui/SectionIntro.astro";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  items: ContentCard[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="section section--muted" id="problema">
+  <div class="container">
+    <SectionIntro
+      eyebrow="Problema y oportunidad"
+      title="Muchas plazas venden bien, pero operan con más fricción de la necesaria"
+      description="Cuando la experiencia depende de procesos manuales, la plaza pierde orden, el cliente espera más y cada restaurante trabaja con menos contexto compartido."
+      center={true}
+    />
+
+    <div class="problem-grid">
+      {
+        items.map((item) => (
+          <article class="card card--feature">
+            <div class="icon-chip">
+              <Icon name={item.icon} size={20} />
+            </div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

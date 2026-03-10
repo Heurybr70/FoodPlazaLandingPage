@@ -1,0 +1,79 @@
+---
+import type { ExternalAction } from "../../config/site";
+import type { LandingContent } from "../../data/landing";
+import SectionIntro from "../ui/SectionIntro.astro";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  pricing: LandingContent["pricing"];
+  planAction: ExternalAction;
+}
+
+const { pricing, planAction } = Astro.props;
+---
+
+<section class="section" id="planes">
+  <div class="container">
+    <SectionIntro
+      eyebrow={pricing.eyebrow}
+      title={pricing.title}
+      description={pricing.description}
+      center={true}
+    />
+
+    <div class="pricing-note">
+      <Icon name="badge-help" size={18} />
+      <p>{pricing.note}</p>
+    </div>
+
+    <div class="pricing-grid">
+      {
+        pricing.plans.map((plan) => (
+          <article class:list={["price-card", plan.highlight && "price-card--featured"]}>
+            {plan.badge && <span class="price-card__badge">{plan.badge}</span>}
+
+            <div class="price-card__header">
+              <h3>{plan.name}</h3>
+              <p>{plan.description}</p>
+            </div>
+
+            <div class="price-card__amount">
+              <span class="price-card__currency">US$</span>
+              <strong>{plan.price}</strong>
+              <span class="price-card__frequency">{plan.frequency}</span>
+            </div>
+
+            <p class="price-card__note">{plan.note}</p>
+
+            <a
+              class:list={[
+                "button",
+                "price-card__action",
+                plan.highlight ? "button--primary" : "button--secondary"
+              ]}
+              href={planAction.url}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span>{planAction.label}</span>
+              <Icon name="arrow-up-right" size={18} />
+            </a>
+
+            <ul class="price-card__list">
+              {
+                plan.benefits.map((benefit) => (
+                  <li>
+                    <span class="list-icon">
+                      <Icon name="check" size={16} />
+                    </span>
+                    <span>{benefit}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

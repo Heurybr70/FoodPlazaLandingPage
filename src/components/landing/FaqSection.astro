@@ -1,0 +1,35 @@
+---
+import type { LandingContent } from "../../data/landing";
+import SectionIntro from "../ui/SectionIntro.astro";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  faq: LandingContent["faq"];
+}
+
+const { faq } = Astro.props;
+---
+
+<section class="section section--muted" id="faq">
+  <div class="container faq-layout">
+    <SectionIntro
+      eyebrow={faq.eyebrow}
+      title={faq.title}
+      description={faq.description}
+    />
+
+    <div class="faq-list">
+      {
+        faq.items.map((item) => (
+          <details class="faq-item">
+            <summary>
+              <span>{item.question}</span>
+              <Icon name="arrow-right" size={18} class="faq-item__icon" />
+            </summary>
+            <p>{item.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

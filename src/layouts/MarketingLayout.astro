@@ -1,0 +1,138 @@
+---
+import { siteConfig } from "../config/site";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = siteConfig.seo.title,
+  description = siteConfig.seo.description
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_DO" />
+    <meta property="og:title" content={siteConfig.seo.ogTitle} />
+    <meta property="og:description" content={siteConfig.seo.ogDescription} />
+    <meta name="theme-color" content="#f6f2ea" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      (() => {
+        const STORAGE_KEY = "foodplaza-theme";
+        const LIGHT = "light";
+        const DARK = "dark";
+        const themeColors = {
+          light: "#f6f2ea",
+          dark: "#120f0c"
+        };
+
+        const root = document.documentElement;
+        const metaTheme = document.querySelector('meta[name="theme-color"]');
+
+        const readStoredTheme = () => {
+          try {
+            return localStorage.getItem(STORAGE_KEY);
+          } catch {
+            return null;
+          }
+        };
+
+        const persistTheme = (theme) => {
+          try {
+            localStorage.setItem(STORAGE_KEY, theme);
+          } catch {
+            return;
+          }
+        };
+
+        const getPreferredTheme = () => {
+          const storedTheme = readStoredTheme();
+
+          if (storedTheme === LIGHT || storedTheme === DARK) {
+            return storedTheme;
+          }
+
+          return window.matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+        };
+
+        const applyTheme = (theme) => {
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          metaTheme?.setAttribute("content", themeColors[theme]);
+        };
+
+        applyTheme(getPreferredTheme());
+
+        window.__foodPlazaTheme = {
+          get() {
+            return root.dataset.theme === DARK ? DARK : LIGHT;
+          },
+          set(theme) {
+            applyTheme(theme === DARK ? DARK : LIGHT);
+            persistTheme(theme === DARK ? DARK : LIGHT);
+          }
+        };
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <slot />
+    <script is:inline>
+      (() => {
+        const bindThemeToggles = () => {
+          const toggles = document.querySelectorAll("[data-theme-toggle]");
+
+          const sync = () => {
+            const isDark = document.documentElement.dataset.theme === "dark";
+
+            toggles.forEach((toggle) => {
+              toggle.setAttribute("aria-pressed", String(isDark));
+              const nextThemeLabel = isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro";
+
+              toggle.setAttribute("aria-label", nextThemeLabel);
+              toggle.setAttribute("title", nextThemeLabel);
+            });
+          };
+
+          toggles.forEach((toggle) => {
+            if (toggle instanceof HTMLButtonElement && toggle.dataset.bound !== "true") {
+              toggle.dataset.bound = "true";
+              toggle.addEventListener("click", () => {
+                const currentTheme =
+                  document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+                const nextTheme = currentTheme === "dark" ? "light" : "dark";
+
+                window.__foodPlazaTheme?.set(nextTheme);
+                sync();
+              });
+            }
+          });
+
+          sync();
+        };
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", bindThemeToggles, { once: true });
+        } else {
+          bindThemeToggles();
+        }
+      })();
+    </script>
+  </body>
+</html>

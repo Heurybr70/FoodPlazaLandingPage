@@ -1,0 +1,54 @@
+---
+import type { LandingContent } from "../../data/landing";
+import SectionIntro from "../ui/SectionIntro.astro";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  benefits: LandingContent["benefits"];
+}
+
+const { benefits } = Astro.props;
+---
+
+<section class="section section--muted" id="beneficios">
+  <div class="container benefits-layout">
+    <div>
+      <SectionIntro
+        eyebrow={benefits.eyebrow}
+        title={benefits.title}
+        description={benefits.description}
+      />
+
+      <article class="benefits-highlight">
+        <h3>{benefits.highlightTitle}</h3>
+        <p>{benefits.highlightDescription}</p>
+        <ul class="check-list">
+          {
+            benefits.highlightPoints.map((point) => (
+              <li>
+                <span class="list-icon">
+                  <Icon name="check" size={16} />
+                </span>
+                <span>{point}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </article>
+    </div>
+
+    <div class="benefits-grid">
+      {
+        benefits.items.map((item) => (
+          <article class="card benefit-card">
+            <div class="icon-chip">
+              <Icon name={item.icon} size={20} />
+            </div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

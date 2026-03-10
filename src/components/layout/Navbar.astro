@@ -1,0 +1,107 @@
+---
+import type { ExternalAction } from "../../config/site";
+import type { NavigationItem } from "../../data/landing";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  brandName: string;
+  navigation: NavigationItem[];
+  commercialAction: ExternalAction;
+  appAction: ExternalAction;
+}
+
+const { brandName, navigation, commercialAction, appAction } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href="#inicio">
+      <span class="brand__mark">
+        <Icon name="sparkles" size={18} />
+      </span>
+      <span>{brandName}</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Principal">
+      {
+        navigation.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))
+      }
+    </nav>
+
+    <div class="site-header__controls">
+      <div class="nav-actions">
+        <a
+          class="button button--ghost button--small"
+          href={appAction.url}
+          rel="noreferrer"
+          target="_blank"
+        >
+          <span>{appAction.label}</span>
+          <Icon name="arrow-up-right" size={16} />
+        </a>
+        <a
+          class="button button--primary button--small"
+          href={commercialAction.url}
+          rel="noreferrer"
+          target="_blank"
+        >
+          <span>{commercialAction.label}</span>
+          <Icon name="arrow-up-right" size={16} />
+        </a>
+      </div>
+
+      <button
+        class="theme-toggle"
+        type="button"
+        data-theme-toggle
+        aria-pressed="false"
+        aria-label="Cambiar a modo oscuro"
+        title="Cambiar tema"
+      >
+        <span class="theme-toggle__icons" aria-hidden="true">
+          <span class="theme-toggle__icon theme-toggle__icon--moon">
+            <Icon name="moon" size={16} />
+          </span>
+          <span class="theme-toggle__icon theme-toggle__icon--sun">
+            <Icon name="sun" size={16} />
+          </span>
+        </span>
+      </button>
+
+      <details class="site-menu">
+        <summary aria-label="Abrir navegación">
+          <Icon name="menu" size={18} />
+        </summary>
+        <div class="site-menu__panel">
+          <nav aria-label="Móvil">
+            {
+              navigation.map((item) => (
+                <a href={item.href}>{item.label}</a>
+              ))
+            }
+          </nav>
+          <a
+            class="button button--secondary button--small"
+            href={appAction.url}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span>{appAction.label}</span>
+            <Icon name="arrow-up-right" size={16} />
+          </a>
+          <a
+            class="button button--primary button--small"
+            href={commercialAction.url}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span>{commercialAction.label}</span>
+            <Icon name="arrow-up-right" size={16} />
+          </a>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>

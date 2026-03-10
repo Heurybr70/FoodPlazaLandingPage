@@ -1,0 +1,71 @@
+---
+import arrowRight from "lucide-static/icons/arrow-right.svg?raw";
+import arrowUpRight from "lucide-static/icons/arrow-up-right.svg?raw";
+import badgeHelp from "lucide-static/icons/badge-help.svg?raw";
+import barChart3 from "lucide-static/icons/bar-chart-3.svg?raw";
+import bellRing from "lucide-static/icons/bell-ring.svg?raw";
+import building2 from "lucide-static/icons/building-2.svg?raw";
+import check from "lucide-static/icons/check.svg?raw";
+import chefHat from "lucide-static/icons/chef-hat.svg?raw";
+import clock3 from "lucide-static/icons/clock-3.svg?raw";
+import layers3 from "lucide-static/icons/layers-3.svg?raw";
+import menu from "lucide-static/icons/menu.svg?raw";
+import moon from "lucide-static/icons/moon.svg?raw";
+import qrCode from "lucide-static/icons/qr-code.svg?raw";
+import receiptText from "lucide-static/icons/receipt-text.svg?raw";
+import rocket from "lucide-static/icons/rocket.svg?raw";
+import scanLine from "lucide-static/icons/scan-line.svg?raw";
+import shieldCheck from "lucide-static/icons/shield-check.svg?raw";
+import shoppingCart from "lucide-static/icons/shopping-cart.svg?raw";
+import sparkles from "lucide-static/icons/sparkles.svg?raw";
+import store from "lucide-static/icons/store.svg?raw";
+import sun from "lucide-static/icons/sun.svg?raw";
+import utensilsCrossed from "lucide-static/icons/utensils-crossed.svg?raw";
+import users from "lucide-static/icons/users.svg?raw";
+import x from "lucide-static/icons/x.svg?raw";
+import type { IconName } from "../../data/landing";
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 20, class: className = "" } = Astro.props;
+
+const icons: Record<IconName, string> = {
+  "arrow-right": arrowRight,
+  "arrow-up-right": arrowUpRight,
+  "badge-help": badgeHelp,
+  "bar-chart-3": barChart3,
+  "bell-ring": bellRing,
+  "building-2": building2,
+  check,
+  "chef-hat": chefHat,
+  "clock-3": clock3,
+  "layers-3": layers3,
+  menu,
+  moon,
+  "qr-code": qrCode,
+  "receipt-text": receiptText,
+  rocket,
+  "scan-line": scanLine,
+  "shield-check": shieldCheck,
+  "shopping-cart": shoppingCart,
+  sparkles,
+  store,
+  sun,
+  "utensils-crossed": utensilsCrossed,
+  users,
+  x
+};
+
+const iconMarkup = icons[name] ?? sparkles;
+---
+
+<span
+  aria-hidden="true"
+  class:list={["icon", className]}
+  style={`--icon-size:${size}px;`}
+  set:html={iconMarkup}
+/>

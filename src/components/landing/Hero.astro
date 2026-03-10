@@ -1,0 +1,123 @@
+---
+import type { ExternalAction } from "../../config/site";
+import type { HeroContent } from "../../data/landing";
+import ActionGroup from "../ui/ActionGroup.astro";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  hero: HeroContent;
+  primaryAction: ExternalAction;
+  secondaryAction: ExternalAction;
+}
+
+const { hero, primaryAction, secondaryAction } = Astro.props;
+---
+
+<section class="hero section" id="inicio">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow">{hero.eyebrow}</p>
+      <h1>
+        {hero.title}
+        <span>{hero.highlightedText}</span>
+      </h1>
+      <p class="hero__description">{hero.description}</p>
+
+      <ActionGroup
+        primary={{ ...primaryAction, variant: "primary" }}
+        secondary={{ ...secondaryAction, variant: "secondary" }}
+      />
+
+      <ul class="hero__points" aria-label="Ventajas rápidas">
+        {
+          hero.quickPoints.map((item) => (
+            <li>
+              <span class="list-icon">
+                <Icon name="check" size={16} />
+              </span>
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="hero__visual" aria-hidden="true">
+      <div class="hero__glow hero__glow--top"></div>
+      <div class="hero__glow hero__glow--bottom"></div>
+
+      <div class="mockup-shell">
+        <div class="mockup-shell__header">
+          <span class="mock-pill">
+            <Icon name="qr-code" size={14} />
+            Mesa A12
+          </span>
+          <span class="mock-pill mock-pill--soft">Plaza central</span>
+        </div>
+
+        <div class="mockup-grid">
+          <article class="mock-card mock-card--wide">
+            <div class="mock-card__title">
+              <Icon name="scan-line" size={18} />
+              <span>Ingreso del cliente</span>
+            </div>
+            <h2>Escanea, elige restaurante y pide en minutos</h2>
+            <p>
+              Flujo web por mesa con acceso inmediato a restaurantes, menús y carrito.
+            </p>
+            <div class="mock-tags">
+              <span>QR activo</span>
+              <span>3 restaurantes disponibles</span>
+            </div>
+          </article>
+
+          <article class="mock-card mock-phone">
+            <div class="mock-phone__top">Pedido desde móvil</div>
+            <div class="mock-phone__body">
+              <div class="mock-list-item">
+                <strong>Tacos del Patio</strong>
+                <span>Combo de birria · US$12</span>
+              </div>
+              <div class="mock-list-item">
+                <strong>Smash & Fries</strong>
+                <span>Hamburguesa doble · US$15</span>
+              </div>
+              <div class="mock-callout">
+                <Icon name="shopping-cart" size={16} />
+                <span>2 productos agregados</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="mock-card">
+            <div class="mock-card__title">
+              <Icon name="layers-3" size={18} />
+              <span>Cola del restaurante</span>
+            </div>
+            <ul class="mock-queue">
+              <li>
+                <span>#0247</span>
+                <strong>En preparación</strong>
+              </li>
+              <li>
+                <span>#0248</span>
+                <strong>Pago presencial confirmado</strong>
+              </li>
+            </ul>
+          </article>
+
+          <article class="mock-card mock-card--status">
+            <div class="mock-card__title">
+              <Icon name="bell-ring" size={18} />
+              <span>Estado compartido</span>
+            </div>
+            <div class="mock-status">
+              <span class="mock-status__badge">Pedido listo para retirar</span>
+              <p>El cliente ve el avance sin salir de la experiencia web.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

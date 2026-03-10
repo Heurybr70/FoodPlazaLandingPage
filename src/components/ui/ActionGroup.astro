@@ -1,0 +1,43 @@
+---
+import Icon from "./Icon.astro";
+import type { ExternalAction } from "../../config/site";
+
+interface ActionLink extends ExternalAction {
+  variant?: "primary" | "secondary" | "ghost";
+}
+
+interface Props {
+  primary: ActionLink;
+  secondary?: ActionLink;
+  class?: string;
+}
+
+const { primary, secondary, class: className = "" } = Astro.props;
+const primaryVariant = primary.variant ?? "primary";
+const secondaryVariant = secondary?.variant ?? "secondary";
+---
+
+<div class:list={["action-group", className]}>
+  <a
+    class:list={["button", `button--${primaryVariant}`]}
+    href={primary.url}
+    rel={primary.external ? "noreferrer" : undefined}
+    target={primary.external ? "_blank" : undefined}
+  >
+    <span>{primary.label}</span>
+    <Icon name={primary.external ? "arrow-up-right" : "arrow-right"} size={18} />
+  </a>
+  {
+    secondary && (
+      <a
+        class:list={["button", `button--${secondaryVariant}`]}
+        href={secondary.url}
+        rel={secondary.external ? "noreferrer" : undefined}
+        target={secondary.external ? "_blank" : undefined}
+      >
+        <span>{secondary.label}</span>
+        <Icon name={secondary.external ? "arrow-up-right" : "arrow-right"} size={18} />
+      </a>
+    )
+  }
+</div>

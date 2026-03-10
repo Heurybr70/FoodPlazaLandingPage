@@ -1,0 +1,28 @@
+---
+import type { ExternalAction } from "../../config/site";
+import type { LandingContent } from "../../data/landing";
+import ActionGroup from "../ui/ActionGroup.astro";
+
+interface Props {
+  finalCta: LandingContent["finalCta"];
+  commercialAction: ExternalAction;
+  appAction: ExternalAction;
+}
+
+const { finalCta, commercialAction, appAction } = Astro.props;
+---
+
+<section class="section" id="cta-final">
+  <div class="container">
+    <div class="final-cta">
+      <p class="eyebrow">CTA final</p>
+      <h2>{finalCta.title}</h2>
+      <p>{finalCta.description}</p>
+
+      <ActionGroup
+        primary={{ ...commercialAction, variant: "primary" }}
+        secondary={{ ...appAction, variant: "secondary" }}
+      />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+import type { LandingContent } from "../../data/landing";
+import SectionIntro from "../ui/SectionIntro.astro";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  features: LandingContent["features"];
+}
+
+const { features } = Astro.props;
+---
+
+<section class="section section--muted" id="funcionalidades">
+  <div class="container">
+    <SectionIntro
+      eyebrow={features.eyebrow}
+      title={features.title}
+      description={features.description}
+      center={true}
+    />
+
+    <div class="audience-grid">
+      {
+        features.groups.map((group) => (
+          <article class="card audience-card" id={group.id}>
+            <div class="audience-card__header">
+              <div class="icon-chip icon-chip--accent">
+                <Icon name={group.icon} size={20} />
+              </div>
+              <div>
+                <h3>{group.title}</h3>
+                <p>{group.description}</p>
+              </div>
+            </div>
+
+            <div class="audience-card__items">
+              {
+                group.items.map((item) => (
+                  <div class="feature-row">
+                    <div class="feature-row__icon">
+                      <Icon name={item.icon} size={18} />
+                    </div>
+                    <div>
+                      <h4>{item.title}</h4>
+                      <p>{item.description}</p>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

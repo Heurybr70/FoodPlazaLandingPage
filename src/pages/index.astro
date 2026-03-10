@@ -1,0 +1,68 @@
+---
+import Footer from "../components/layout/Footer.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import BenefitsSection from "../components/landing/BenefitsSection.astro";
+import FaqSection from "../components/landing/FaqSection.astro";
+import FeaturesSection from "../components/landing/FeaturesSection.astro";
+import FinalCtaSection from "../components/landing/FinalCtaSection.astro";
+import Hero from "../components/landing/Hero.astro";
+import HowItWorksSection from "../components/landing/HowItWorksSection.astro";
+import PricingSection from "../components/landing/PricingSection.astro";
+import ProblemSection from "../components/landing/ProblemSection.astro";
+import SolutionSection from "../components/landing/SolutionSection.astro";
+import MarketingLayout from "../layouts/MarketingLayout.astro";
+import { landingContent } from "../data/landing";
+import {
+  getAppAction,
+  getCommercialAction,
+  getPlanAction,
+  siteConfig
+} from "../config/site";
+
+const heroPrimaryAction = {
+  label: "Ver planes",
+  url: "#planes",
+  external: false
+} as const;
+
+const appAction = getAppAction();
+const commercialAction = getCommercialAction();
+const planAction = getPlanAction();
+---
+
+<MarketingLayout>
+  <Navbar
+    appAction={appAction}
+    brandName={siteConfig.brand.shortName}
+    commercialAction={commercialAction}
+    navigation={landingContent.navigation}
+  />
+
+  <main id="contenido" class="page-shell">
+    <Hero hero={landingContent.hero} primaryAction={heroPrimaryAction} secondaryAction={appAction} />
+    <ProblemSection items={landingContent.problems} />
+    <SolutionSection solution={landingContent.solution} />
+    <FeaturesSection features={landingContent.features} />
+    <HowItWorksSection howItWorks={landingContent.howItWorks} />
+    <BenefitsSection benefits={landingContent.benefits} />
+    <PricingSection planAction={planAction} pricing={landingContent.pricing} />
+    <FaqSection faq={landingContent.faq} />
+    <FinalCtaSection
+      appAction={appAction}
+      commercialAction={commercialAction}
+      finalCta={landingContent.finalCta}
+    />
+  </main>
+
+  <Footer
+    appAction={appAction}
+    brandDescription={siteConfig.brand.description}
+    brandName={siteConfig.brand.name}
+    commercialAction={commercialAction}
+    contactUrl={siteConfig.CONTACT_URL}
+    navigation={landingContent.navigation}
+    privacyUrl={siteConfig.PRIVACY_URL}
+    supportEmail={siteConfig.brand.supportEmail}
+    termsUrl={siteConfig.TERMS_URL}
+  />
+</MarketingLayout>

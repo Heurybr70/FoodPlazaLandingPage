@@ -1,0 +1,37 @@
+---
+import type { LandingContent } from "../../data/landing";
+import SectionIntro from "../ui/SectionIntro.astro";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  solution: LandingContent["solution"];
+}
+
+const { solution } = Astro.props;
+---
+
+<section class="section" id="solucion">
+  <div class="container solution-layout">
+    <SectionIntro
+      eyebrow={solution.eyebrow}
+      title={solution.title}
+      description={solution.description}
+    />
+
+    <div class="solution-panel">
+      {
+        solution.pillars.map((pillar) => (
+          <article class="solution-item card">
+            <div class="icon-chip icon-chip--accent">
+              <Icon name={pillar.icon} size={20} />
+            </div>
+            <div>
+              <h3>{pillar.title}</h3>
+              <p>{pillar.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
